@@ -127,7 +127,7 @@ object.getFormTrackingManager = function (core, trackerId, contextAdder) {
 			var elt = e.target;
 			var type = (elt.nodeName && elt.nodeName.toUpperCase() === 'INPUT') ? elt.type : null;
 			var value = (elt.type === 'checkbox' && !elt.checked) ? null : fieldTransform(elt.value);
-			core.trackFormChange(getParentFormName(elt), getFormElementName(elt), elt.nodeName, type, helpers.getCssClasses(elt), value, contextAdder(context));
+			core.trackFormChange(getParentFormName(elt), getFormElementName(elt), elt.nodeName, type, helpers.getCssClasses(elt), value, contextAdder(helpers.resolveDynamicContexts(context, elt, type, value)));
 		};
 	}
 
@@ -141,7 +141,7 @@ object.getFormTrackingManager = function (core, trackerId, contextAdder) {
 			lodash.forEach(innerElements, function (innerElement) {
 				innerElement.value = fieldTransform(innerElement.value);
 			});
-			core.trackFormSubmission(getFormElementName(elt), helpers.getCssClasses(elt), innerElements, contextAdder(context));
+			core.trackFormSubmission(getFormElementName(elt), helpers.getCssClasses(elt), innerElements, contextAdder(helpers.resolveDynamicContexts(context, elt, innerElements)));
 		};
 	}
 
